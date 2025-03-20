@@ -1,29 +1,27 @@
 const express = require('express');
-const cors = require('cors')
-const userRouter = require('./routes/user.route')
+const cors = require('cors');
+const userRouter = require('./routes/user.route');
+const festRouter = require('./routes/fest.route'); // เพิ่ม route ใหม่เข้ามา
 
+require('dotenv').config();
 
-require('dotenv').config()
+const app = express(); // สร้าง web server
 
-const app = express() // สร้าง web sever
+const PORT = process.env.PORT;
 
-const PORT = process.env.PORT
+app.use(cors());
+app.use(express.json());
+app.use('/users', userRouter);
+app.use('/festivals', festRouter); // เชื่อม route ใหม่
 
-app.use(cors())
-app.use(express.json())
-app.use('/users', userRouter)
-
-
-
-//เอาไว้เทสว่ารับ request response ได้หรือไม่
+// เอาไว้เทสว่ารับ request response ได้หรือไม่
 app.get('/', (request, response) => {
     response.json({
-        message: "`สวัสดี`"
-    })
-})
+        message: "สวัสดี"
+    });
+});
 
-
-//สั่ง start web sever โดยเปิด PORT รองกับการ request/response ตามที่กำหนดไว้
+// สั่ง start web server โดยเปิด PORT รองรับการ request/response ตามที่กำหนดไว้
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-})
+    console.log(`Server is running on port ${PORT}`);
+});
